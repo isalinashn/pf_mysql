@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  db:
+    image: mysql
+    container_name: pf-mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=C0ntrol1*
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    #volumes:
+#      - pf_db_mysql:/var/lib/mysql
+  rest:
+    depends_on:
+      - db
+    container_name: PF_REST_mysql
+    build:
+      context: .
+      target: ${STAGE}
+      dockerfile: ./Dockerfile
+    ports:
+      - ${REST_PORT}:${REST_PORT}
+#    volumes:
+#      - .:/app/
+      #- pf_rest_data:/app/
+#volumes:
+#  pf_db_mysql:
+#  pf_rest_data:
